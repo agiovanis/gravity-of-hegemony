@@ -1,0 +1,516 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,graphicx,float,caption}
+\usepackage[expansion=false]{microtype}
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,
+  pdftitle={The Gravity of Hegemony: How Much Can Nine Historical Cases Say About the Timing of Reserve-Currency Transitions?},
+  pdfauthor={Aggelos Giovanis}]{hyperref}
+
+\setlength{\bibhang}{1.5em}\setlength{\bibsep}{2pt}
+\captionsetup{font=small,labelfont=bf}
+\renewcommand{\baselinestretch}{1.06}
+\emergencystretch=2em
+
+% section styles
+\titleformat{\section}{\large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesection.\arabic{subsection}}{0.8em}{}
+\titlespacing*{\section}{0pt}{16pt}{6pt}
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0em}{}
+\titlespacing*{\paragraph}{0pt}{8pt}{1em}
+
+% theorem-like environments (shared counter, numbered within sections)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}[definition]{Remark}
+\theoremstyle{plain}
+\newtheorem{proposition}[definition]{Proposition}
+
+\newcommand{\HGI}{\mathrm{HGI}}
+
+% headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small G\scriptsize IOVANIS}
+\fancyhead[R]{\small\itshape The Gravity of Hegemony}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\begin{document}
+
+%---------------------------------------------------------------------
+% Title block
+%---------------------------------------------------------------------
+\thispagestyle{plain}
+\begin{center}
+{\LARGE The Gravity of Hegemony:\\[3pt]
+How Much Can Nine Historical Cases Say About the Timing\\[3pt]
+of Reserve-Currency Transitions?}\\[22pt]
+{\large\bfseries AGGELOS GIOVANIS}\\[3pt]
+{\itshape\large Ataraxia Quantitative Research}\\[16pt]
+\end{center}
+
+\begin{center}
+\begin{minipage}{0.9\textwidth}
+\small\noindent
+Reserve-currency transitions are often described as the end point of a widening gap between an issuer's share of world output and its share of world military spending. I formalise that gap as the Hegemony Gap Index (HGI), define the \emph{transition lag} $\tau$ as the time from the index's first sustained negative crossing to formal loss of primacy, and ask whether an issuer's monetary sovereignty $\mu$, scored on a four-item rubric, explains $\tau$ across nine historical cases. The paper is an exercise in what so small a sample can and cannot identify. Using closed-form and exhaustively enumerated computations rather than optimiser output, I show that (i) the fitted $\mu$--$\tau$ curve is observationally equivalent to a two-group step function ($R^2=0.704$) that predicts better out of sample than a three-parameter curve; (ii) a bootstrap interval for the conditional mean, 41.2--62.2 years, covers a new issuer only 52\% of the time, whereas a predictive interval is 15.5--88.5 years; (iii) $\mu=1$ coincides exactly with reserve-issuer status (Fisher exact $p=0.0079$), and a simple pre-1900/post-1900 split fits the lags better than $\mu$ does, so sovereignty cannot be separated from reserve status or era; and (iv) results are fragile to the dating of transitions and to scoring errors. The four reserve issuers in the sample took decades, not years, to lose primacy (exact permutation $p=0.0238$); the sample supports no more than that, and no date for any future transition. I also specify, but do not report, a blind re-scoring protocol for the rubric, a rule-based comparison sample that includes censored cases, and an out-of-sample market test.
+
+\medskip
+\noindent\textit{Keywords:} Reserve currency, hegemony, monetary sovereignty, transition lag, small-sample inference, identification.
+
+\medskip
+\noindent\textit{JEL Classifications:} F33, N10, F51, C12
+\end{minipage}
+\end{center}
+\bigskip
+
+%=====================================================================
+\section{Introduction}\label{sec:intro}
+The international role of a currency is slow to build and, historically, slow to lose. Yet the narrative literature on great-power decline suggests that the loss, when it comes, follows from a structural imbalance: \citet{kennedy1987} described ``imperial overstretch'' as the tendency of leading powers to accumulate security commitments faster than their economic base can carry them, and \citet{arrighi1994} embedded the pattern in a long cycle of material and financial expansion. Both accounts are qualitative. The narrower, testable question this paper asks is: once structural divergence begins, how long does it take for the reserve currency to be displaced, and does the issuer's monetary sovereignty govern that interval?
+
+Answering that question quantitatively is difficult because the relevant sample is tiny. Historians can name perhaps four or five currencies that held a dominant international role and then lost it, and only a handful of comparison episodes in which an overstretched sovereign lost room for manoeuvre without ever having been a hegemon. Small-$N$ historical work in macroeconomics nonetheless routinely reports a fitted curve, an $R^2$ and a bootstrap interval, and each of these can mislead when $N=9$. The paper's most useful contribution is therefore perhaps a negative one: it shows, case by case and number by number, how little a nine-case sample identifies, and it supplies a set of exact tools for saying so.
+
+In this paper I take the standard small-sample toolkit and apply it, jointly and exactly, to a nine-case macro-historical sample. My contributions are fivefold. First, I replace every numerical optimiser by a closed-form or exhaustively enumerated computation, so that no result depends on starting values. Second, I separate confidence intervals for a conditional mean from predictive intervals for a new case, which differ by a factor of roughly three here. Third, I test whether the key explanatory variable is separable from obvious confounders, and show that a simple era split explains the lags at least as well. Fourth, I quantify how much of the answer is determined by coding choices (transition dates, rubric scores) and by single cases rather than by data. Fifth, I specify, before running them, three procedures that could discipline the measure on data other than the nine cases and my own coding: a blind re-scoring protocol for the rubric, a rule-based comparison sample that includes right-censored cases, and the falsification conditions of an out-of-sample market test.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:lit} reviews the relevant literature on hegemony, reserve currencies and small-sample inference. Section~\ref{sec:method} presents the methodology, including the index, the lag and the sovereignty rubric, the fitted relationships, the estimators, the exact tests and a blind re-scoring protocol. Section~\ref{sec:data} describes the nine cases, the composition of the sample, the pre-specified market test and a comparison-case design. Section~\ref{sec:results} discusses the empirical results. Section~\ref{sec:conclusion} summarizes what the evidence does and does not support and concludes. Implementation details, tables and figures are provided in the Appendix.
+
+%=====================================================================
+\section{Literature Review}\label{sec:lit}
+\citet{kennedy1987} and \citet{arrighi1994} supply the historical narrative of hegemony and overstretch; \citet{gilpin1981}, \citet{kindleberger1973} and \citet{keohane1984} stress hegemonic provision of public goods and the consequences of its erosion for the international economic order. \citet{strange1971} emphasises that the standing of a currency rests on political as well as economic foundations, and \citet{cohen1998} treats the competition between currencies as a contest over monetary territory in which the position of the issuer is rarely lost quickly.
+
+On the history and dynamics of reserve currencies, \citet{triffin1960} identified the tension between an issuer's domestic objectives and the demands of an international reserve role. \citet{eichengreen2011} and \citet{eichengreen2009} document that transitions between reserve currencies are slow and non-linear, with incumbency and network effects delaying displacement, and \citet{eichengreen2017} reinforce this with evidence on multipolar currency use. \citet{chinn2007} ask when a challenger might overtake the incumbent and find that the answer depends strongly on assumptions about the future. Formal models of the dollar's special role include \citet{gourinchas2007} and \citet{farhi2018}. On consequences, \citet{jiang2026} calibrate the effect of losing dollar reserve status: roughly an 8.8\% real depreciation, a 90-basis-point rise in the US real interest rate, and a wealth loss of about one year of GDP. Their model is conditional on the event and is silent on timing; this paper addresses timing with a historical sample and, above all, tries to be honest about how little such a sample supports. The measurement of $\mu$ builds on the literature classifying exchange-rate regimes \citep{ilzetzki2019}, and its criterion on debt monetisation draws on the historical record of sovereign debt episodes \citep{reinhart2009}.
+
+The statistical issues are standard but rarely brought together in a macro-historical setting. Conclusions from very small samples are fragile \citep{lieberson1991}; selecting cases on the outcome biases the answers \citep{geddes1990,king2001}; the distinction between a confidence interval for a mean and a predictive interval for a new observation is old \citep{geisser1993} but frequently blurred; model comparison by out-of-sample prediction \citep{stone1974} and by the small-sample corrected information criterion \citep{hurvich1989,burnham2002} guards against over-fitting; the bootstrap \citep{efron1979,efron1993} is unreliable when a group contains only a handful of observations; exact permutation tests \citep{phipson2010}, the Mann--Whitney test \citep{mann1947} and Fisher's exact test \citep{fisher1922} avoid distributional assumptions; and profile-likelihood analysis \citep{raue2009,seber1989} reveals when a parameter is not identified. Finally, flexibility in coding and specification inflates apparent evidence \citep{gelman2014}, which motivates both the sensitivity analyses of Section~\ref{sec:results} and the pre-specification of Section~\ref{sec:market} \citep{nosek2018}. I am not aware of earlier work that applies these tools jointly to a nine-case macro-historical sample.
+
+%=====================================================================
+\section{Methodology}\label{sec:method}
+
+\subsection{Hegemony Gap Index, Transition Lag and Monetary Sovereignty}\label{sec:framework}
+The framework rests on three definitions. The first is the index itself.
+
+\begin{definition}[Hegemony Gap Index]\label{def:hgi}
+For an entity with share $G_t$ of world GDP and share $M_t$ of world military expenditure in year $t$,
+\begin{equation}
+\HGI_t = G_t - M_t. \label{eq:hgi}
+\end{equation}
+\end{definition}
+
+Negative values indicate that military commitments are large relative to the economic base. The index is deliberately simple: it uses two publicly measurable shares and no estimated parameters.
+
+\begin{definition}[Transition lag]\label{def:lag}
+The transition lag $\tau$ is the number of years from the first \emph{sustained} negative crossing of $\HGI$ to the year the currency formally loses primary reserve status.
+\end{definition}
+
+``Formal loss'' is ambiguous historically, so each case carries a narrow, a mid and a wide date (Table~\ref{tab:cases}); sterling's three dates (1931, 1944, 1956) differ by 25 years. Unless stated otherwise the mid date is used.
+
+\begin{definition}[Monetary Sovereignty Modifier]\label{def:mu}
+The Monetary Sovereignty Modifier $\mu\in\{0,\tfrac14,\tfrac12,\tfrac34,1\}$ is the share of four binary criteria satisfied: (i) unilateral control of the external exchange rate (E); (ii) domestic interest-rate control (I); (iii) debt-monetisation capacity without external veto (D); and (iv) absence of binding external conditionality (C).
+\end{definition}
+
+The rubric is intended to capture how many of the usual adjustment instruments the sovereign retains when its external position deteriorates. Because $\mu=1$ requires all four criteria, a single mis-scored criterion moves a case out of the top group (Section~\ref{sec:coding}).
+
+\subsection{Fitted Relationships and Estimands}\label{sec:fitted}
+The general specification is
+\begin{equation}
+\hat\tau(\mu)=\tau_{\min}+(\tau_{\max}-\tau_{\min})\,\mu^{\alpha}, \label{eq:curve}
+\end{equation}
+which nests the linear model ($\alpha=1$) and, as $\alpha\to\infty$, the step model
+\begin{equation}
+\hat\tau(\mu)=\tau_{\min}+(\tau_{\max}-\tau_{\min})\,\mathbf 1\{\mu=1\}. \label{eq:step}
+\end{equation}
+Two quantities must be kept apart: the conditional mean $m_1=\mathbb E[\tau\mid\mu=1]$ and the lag $\tau_0$ of a \emph{new} full-sovereignty issuer, $\tau_0=m_1+\varepsilon_0$. Uncertainty about $m_1$ shrinks with the number of $\mu=1$ cases; uncertainty about $\tau_0$ never falls below the idiosyncratic spread $\sigma$ (Section~\ref{sec:intervalsmeth}). Everything below is deterministic and exact where possible; stochastic procedures use fixed seeds.
+
+\subsection{Exact Profile over the Shape Parameter}\label{sec:profile}
+For fixed $\alpha$, set $x_i=\mu_i^{\alpha}$. Equation~\eqref{eq:curve} is then $\tau_i=a+b\,x_i+\varepsilon_i$ with $a=\tau_{\min}$ and $b=\tau_{\max}-\tau_{\min}$, which is ordinary least squares. The profile $R^2(\alpha)$ is therefore known exactly at each $\alpha$, and there is no non-linear optimisation whose starting values could matter. The behaviour at the boundary is characterised as follows.
+
+\begin{proposition}[Exact profile and step limit]\label{prop:step}
+Suppose the sample contains at least one case with $\mu=1$ and at least one with $\mu<1$. For each $\alpha>0$ the least-squares fit of $\tau$ on $(1,\mu^{\alpha})$ is exact OLS, and as $\alpha\to\infty$ the fitted values converge to the pair of group means, $\tau_{\min}=\bar\tau_{\mu<1}$ and $\tau_{\max}=\bar\tau_{\mu=1}$. Consequently $R^2(\alpha)$ converges to the $R^2$ of the step model~\eqref{eq:step}.
+\end{proposition}
+
+\begin{proof}
+For $\mu\in\{0,\tfrac14,\tfrac12,\tfrac34,1\}$, $\lim_{\alpha\to\infty}\mu^{\alpha}=\mathbf 1\{\mu=1\}$. For each finite $\alpha$ the regressor $x=\mu^{\alpha}$ takes at most five values and the least-squares fit of $\tau$ on $(1,x)$ is exact OLS. The limiting regressor $\mathbf 1\{\mu=1\}$ is not constant in the sample, so $(1,\mathbf 1\{\mu=1\})$ has full column rank and the OLS coefficients, which are continuous functions of the regressor wherever the design has full rank, converge to those of the limiting regression. The least-squares fit on $(1,\mathbf 1\{\mu=1\})$ is the pair of group means. Residual and total sums of squares converge accordingly, and so does $R^2(\alpha)$.
+\end{proof}
+
+\subsection{Model Comparison}\label{sec:modelcomp}
+I compare four models: intercept-only; linear in $\mu$ ($\alpha=1$); the power curve with the best $\alpha\le500$; and the step model. With $K=k+1$ estimated parameters (mean-structure parameters plus the error variance) the Gaussian small-sample information criterion is
+\begin{equation}
+\mathrm{AICc}=n\ln\!\big(\mathrm{SSE}/n\big)+2K+\frac{2K(K+1)}{n-K-1},\label{eq:aicc}
+\end{equation}
+following \citet{hurvich1989}. Out-of-sample accuracy is measured by leave-one-out cross-validation \citep{stone1974},
+\begin{equation}
+R^2_{\mathrm{LOO}}=1-\frac{\mathrm{PRESS}}{\mathrm{SST}},\qquad \mathrm{PRESS}=\sum_{i=1}^{n}\big(\tau_i-\hat\tau_{-i}(\mu_i)\big)^2,\label{eq:loo}
+\end{equation}
+where $\hat\tau_{-i}$ is fitted without case $i$. For the power curve the best $\alpha$ is re-selected inside every leave-one-out fit, so the criterion does not reward the choice of $\alpha$ by hindsight.
+
+\subsection{Intervals for a New Full-Sovereignty Issuer}\label{sec:intervalsmeth}
+A pairs bootstrap of the fitted value at $\mu=1$ resamples the nine $(\mu_i,\tau_i)$ pairs ($B=20{,}000$), discards resamples with no $\mu=1$ case, and reports the 2.5th and 97.5th percentiles of the group mean. It measures uncertainty about $m_1$, not about $\tau_0$. The interval relevant for a new issuer is a predictive interval.
+
+\begin{proposition}[Predictive interval]\label{prop:pi}
+Under the two-group model, $\tau_0=m_1+\varepsilon_0$ with $\varepsilon_0\sim N(0,\sigma^2)$ independent of the sample, and $n_1$ cases with $\mu=1$. If $\hat\sigma$ is independent of $\bar\tau_1$ and has $\nu$ degrees of freedom, then
+\begin{equation}
+\bar\tau_{1}\;\pm\;t_{\nu,\,0.975}\;\hat\sigma\sqrt{1+1/n_1}\label{eq:pi}
+\end{equation}
+is an exact 95\% prediction interval for $\tau_0$.
+\end{proposition}
+
+\begin{proof}
+The estimator $\bar\tau_1$ has variance $\sigma^2/n_1$ and is independent of $\varepsilon_0$, so $\tau_0-\bar\tau_1$ has variance $\sigma^2(1+1/n_1)$. Replacing $\sigma$ by $\hat\sigma$ with $\nu$ degrees of freedom gives a $t$-distributed pivot and hence the interval~\eqref{eq:pi}.
+\end{proof}
+
+Here $n_1=4$, and $\hat\sigma$ is estimated either from the pooled residuals of the two-group model ($\nu=n-2$) or from the $\mu=1$ group alone ($\nu=n_1-1$). A log-scale version, fitted on $\ln\tau$ and exponentiated, keeps the interval positive. The gap between the two kinds of interval can be derived in closed form.
+
+\begin{proposition}[Coverage of a confidence interval used as a predictive interval]\label{prop:cov}
+With $\sigma$ known, the probability that the 95\% confidence interval $\bar\tau_1\pm1.96\,\sigma/\sqrt{n_1}$ for the mean contains a new draw $\tau_0$ is $2\Phi\!\big(1.96/\sqrt{n_1+1}\big)-1$, which equals $0.62$ for $n_1=4$ and $0.74$ for $n_1=2$. The ratio of the predictive to the confidence interval length is $\sqrt{n_1+1}$.
+\end{proposition}
+
+\begin{proof}
+The difference $\tau_0-\bar\tau_1$ has standard deviation $\sigma\sqrt{1+1/n_1}$, so the interval contains $\tau_0$ with probability
+\[
+2\Phi\!\left(\frac{1.96/\sqrt{n_1}}{\sqrt{1+1/n_1}}\right)-1=2\Phi\!\left(\frac{1.96}{\sqrt{n_1+1}}\right)-1.
+\]
+The interval lengths are $2(1.96)\sigma/\sqrt{n_1}$ and $2(1.96)\sigma\sqrt{1+1/n_1}$, whose ratio is $\sqrt{n_1+1}\approx2.2$ for $n_1=4$.
+\end{proof}
+
+\begin{remark}[Interval ratio in practice]\label{rem:ratio}
+The realised ratio of interval lengths in Table~\ref{tab:cov} is about 3 rather than 2.2, because of the $t$ quantile and because the percentile bootstrap understates the sampling variance of a mean of four observations.
+\end{remark}
+
+\subsection{Exact Tests}\label{sec:exact}
+The group difference is tested by a permutation test that enumerates all $\binom94=126$ assignments of four ``full'' labels to nine cases, using the absolute difference in group means as the statistic. Because every assignment is enumerated, the $p$-value is exact and cannot be zero \citep{phipson2010}. I also report the exact Mann--Whitney test \citep{mann1947} and Fisher's exact test \citep{fisher1922} for the collinearity of $\mu=1$ with reserve-issuer status. A Welch $t$-test would give a smaller $p$ (0.004) but relies on normality with four and five observations and is not used.
+
+\subsection{Sensitivity Analyses and Coverage Experiment}\label{sec:sens}
+Four sensitivity analyses are run. For transition dates, I enumerate exhaustively all $3^9=19{,}683$ narrow/mid/wide date combinations. For rubric errors, a Monte Carlo flips each of the $4\times9$ binary rubric scores independently with probability $p\in\{0.05,0.10,0.20\}$, recomputes $\mu$, and refits the step model. For single cases, I re-estimate the group difference, its exact permutation $p$-value and the step-model $R^2$ after deleting each case in turn. For alternative partitions, the era partition (crossing before and after 1900) is compared with the sovereignty partition on the same statistics; any cut-off between 1882 and 1918 yields the same partition, so no threshold is tuned.
+
+To check the distinction between the two kinds of interval empirically, I also simulate data from the step model with the group means used in the paper (52 and 14) and $\sigma=11$, draw a fresh $\mu=1$ issuer from the same population, and record how often each interval contains it (3,000 simulations). The Monte Carlo standard error of a coverage estimate near 50\% is about 0.9 percentage points.
+
+\subsection{Blind Re-Scoring Protocol for the Sovereignty Rubric}\label{sec:blind}
+The rubric of Definition~\ref{def:mu} was scored by the author with knowledge of the outcomes, and Section~\ref{sec:ident} shows that two cases, the Ottoman lira and the Imperial yen, are exposed to outcome look-ahead. I therefore specify a protocol for re-scoring $\mu$ blind. The protocol is specified here and has \emph{not} been executed: no blind score is reported in this paper, and the author's coding is retained throughout.
+
+\paragraph{Independence and roles.} Scores are assigned by two coders who did not design the rubric and who work independently, without contact and without sight of the transition year, of $\tau$, or of the author's scores. A dossier preparer other than the author, or the author following a fixed source list, assembles the evidence, and a third person adjudicates only the criteria on which the coders disagree. The author writes and freezes the protocol, but neither scores nor adjudicates.
+
+\paragraph{Scoring date and evidence.} Each case is scored as of its crossing year $t_0$, which is computed rather than chosen: the first year of a run of at least five consecutive years with $\HGI_t<0$, with run lengths of 3 and 8 as sensitivity checks. Each criterion is judged on evidence from the twelve months before $t_0$, with up to five earlier years allowed to establish the regime in force. Evidence dated after $t_0$ is excluded, including retrospective accounts that characterise the earlier period using later knowledge. Dossiers draw on a source list fixed in advance: central-bank charters, monetary statutes, treaty texts and programme agreements, with the exchange-rate regime classification of \citet{ilzetzki2019} and the debt chronology of \citet{reinhart2009} as anchors where they apply. Full blinding is impossible for well-known episodes, so each coder records an outcome-familiarity rating (0, 1 or 2) for every case before scoring, and agreement and results are reported by familiarity level.
+
+\paragraph{Decision rules.} Each criterion is binary, with a default rule and a stricter alternative reading that is run as a sensitivity analysis (Table~\ref{tab:rules}). The default does not set E to zero merely because a domestic-law metallic standard is in force; the strict reading scores any fixed-parity regime zero on E and any rate used to defend a parity zero on I. Evidence that cannot be found is recorded as unknown rather than guessed.
+
+\paragraph{Reliability and analysis plan.} I report percent agreement and Cohen's $\kappa$ \citep{cohen1960} over all case-criterion pairs, overall and by criterion, with a target of $\kappa\ge0.6$; if it is not met, results are reported under each coder separately as well as under the adjudicated scores. The statistics are those of Section~\ref{sec:results}, rerun once on the blind $\mu$: step-model $R^2$, group means, the exact permutation $p$-value, leave-one-out $R^2$, the pooled predictive interval, the Fisher test against reserve status, and the era comparison. Sensitivity analyses cover the strict readings of E and I, unknown items set to 0 and then to 1, the exclusion of adjudicated items, and the two alternative run lengths. The interpretation rules are fixed now: results are reported whichever way they fall, the author's coding is shown alongside, and no rubric item, threshold or partition is changed after the blind scores are seen. The protocol, source list and analysis plan are written down and dated before any coder begins.
+
+%=====================================================================
+\section{Data and Empirical Design}\label{sec:data}
+
+\subsection{Sources and Provenance}
+Table~\ref{tab:cases} lists the nine cases with the four rubric scores, a provenance tag, and the transition year implied by the mid lag. Provenance is one of \emph{verified} (annual quantitative series exist), \emph{verified with caveat} (the French franc: its c.\,1812 crossing falls four years before Correlates-of-War coverage begins), and \emph{benchmark-only} (the Spanish real and Dutch guilder, which rest on benchmark-year estimates in \citealt{kennedy1987}, because no systematic cross-national military-expenditure series exists before 1816; \citealt{vanzanden2012} reconstruct Holland's national income, but no global military denominator can be built). Modern GDP shares come from the World Bank's World Development Indicators and the IMF World Economic Outlook, military shares from SIPRI, and earlier GDP from the Maddison Project \citep{bolt2020}. The crossing years and transition dates in Table~\ref{tab:cases} are coded inputs; they are not recomputed in this paper.
+
+\subsection{Composition of the Sample}
+Three features of the sample bear on everything below. First, there are only four distinct values of $\mu$ (0, 0.25, 0.5 and 1), not five, so the rubric offers little scope for estimating a smooth relationship. Second, four of the nine cases have $\mu=1$ and they are exactly the four historical reserve issuers; the five others (Weimar Germany, Argentina, Greece, the Ottoman Empire and Imperial Japan) were not primary reserve issuers and populate the low-$\mu$ region only. Third, the $\mu=1$ cases date from 1590--1881 and the others are, with the exception of the Ottoman lira, twentieth-century or later. These three features are the root of the identification problems in Section~\ref{sec:ident}.
+
+\subsection{Case Notes}
+\paragraph{Ottoman lira and Imperial yen.} The rubric for the Ottoman lira is scored on conditions \emph{after 1881}, the year of the Ottoman Public Debt Administration, which is itself the transition event ($1840+41=1881$). The yen's coding likewise invokes post-1945 occupation, the end of its $\tau$ window. Scoring $\mu$ with information from the outcome date is a form of look-ahead; Section~\ref{sec:ident} measures its consequences.
+
+\paragraph{Weimar Germany and Argentina.} Both have short lags (4 years under every date definition). With $\mu=0$ and $\mu=\tfrac14$ respectively they anchor the low-sovereignty end of the sample.
+
+\paragraph{Greece.} Greece entered the euro in 2001 with all four rubric criteria unmet ($\mu=0$) and entered an external programme in 2010 ($\tau=9$). It was never a hegemon; its role is to anchor the $\mu=0$ end and to illustrate the mechanism: without exchange-rate depreciation, domestic monetisation or financial repression, an overstretched sovereign adjusts through output and debt restructuring rather than currency change. Greece's persistently high defence burden relative to its GDP share, tied to the Aegean dispute, is asserted, not computed here, to keep its HGI negative even in expansions. Its crossing date is the euro-entry date rather than a computed crossing. I make no predictive use of the case beyond the low-$\mu$ anchor: with $n=1$ at $\mu=0$ (two with Weimar), it contributes to the low-group mean only, and it is informative about euro-area membership rather than about hegemonic transitions.
+
+\subsection{A Pre-Specified Out-of-Sample Market Test (Specified, Not Reported)}\label{sec:market}
+Cross-country \emph{rates of change} of HGI could, in principle, be priced in currencies or equity indices even if the level--$\tau$ relationship is unidentified. Such a test would discipline the measure on data other than the nine cases and would be informative whichever way it came out.
+
+\paragraph{Design.} The test is a walk-forward cross-sectional design. Each month, countries are ranked on the 12-month change in HGI (annual GDP and SIPRI shares enter only after publication lags of 9 and 15 months), the ranking is confirmed with a 36-month change, and the strategy goes long the top tercile and short the bottom tercile with inverse-volatility weights and a 15\% single-name cap. The years 2018--2025 are held out as out-of-sample. I report no results here.
+
+\paragraph{Falsification conditions.} The conditions below are fixed here, before any result of the walk-forward test has been examined. The strategy is rejected unless all four hold.
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt]
+\item \emph{Significance.} Out-of-sample Sharpe ratio with a heteroskedasticity-and-autocorrelation-consistent $t$-statistic of at least 3.0, the conservative bar recommended for newly proposed factors \citep{harvey2016}, and a deflated Sharpe ratio $>0$ after accounting for the number of specifications tried \citep{bailey2014}.
+\item \emph{Spanning.} A positive and significant intercept after regressing returns on currency trend, value and carry factors \citep{menkhoff2012,asness2013,lustig2011}. Carry data have not yet been assembled; this condition cannot be tested until they are.
+\item \emph{Non-concentration.} No single country or calendar year changes the sign of cumulative return or halves the Sharpe ratio when removed.
+\item \emph{Mechanical-channel control.} GDP shares in current US dollars move with exchange rates, so the signal may be lagged FX momentum in disguise. The test must be repeated with constant-price or PPP GDP shares, or with the signal residualised on trailing FX returns; the strategy passes only if it survives.
+\end{enumerate}
+
+\paragraph{Limitations of the design.} The specification has known limitations: it uses spot returns without carry, applies a fixed 3\% risk-free rate to a self-financing long-short portfolio, and uses regression errors that are not heteroskedasticity-and-autocorrelation consistent. The Sharpe-ratio significance test must use the per-period ratio, not the annualised one, in the standard-error formula; using the annualised ratio would understate the standard error by $\sqrt{252}$ and make condition~1 nearly automatic.
+
+\subsection{Comparison-Case Design (Specified, Not Executed)}\label{sec:compcase}
+The nine cases were collected because a currency lost primacy or a sovereign lost room for manoeuvre, so they condition on the outcome (Section~\ref{sec:ident}). Adding a few convenient cases would not remove that selection. The remedy is to define a population by a rule that does not look at outcomes, and then record what happened. This design is specified here and has not been executed: no HGI series has been computed for any candidate below.
+
+\paragraph{Population rule.} The unit is a country-currency episode. An episode enters if $\HGI_t<0$ for at least five consecutive years in a country holding at least a stated minimum share of world GDP at $t_0$ (for example 1\%), so that small economies with noisy ratios are excluded. The crossing year $t_0$ and the shares are computed from named series, and the GDP measure (market exchange rates or purchasing-power parity) is fixed in advance, because the choice moves crossing dates. Each episode is followed from $t_0$ for a fixed horizon, for example 60 years; an episode with no outcome by the end of the horizon or of the data is right-censored at its observed length.
+
+\paragraph{Outcomes.} The existing sample mixes two outcomes: loss of primary reserve status for reserve issuers, and a forced external adjustment (currency collapse, default, or a programme with binding conditionality) for the others. They should be defined separately and analysed separately, or combined only in a way stated in advance, since the contrast in Section~\ref{sec:ident} is partly between kinds of sovereign.
+
+\paragraph{Candidate episodes.} Table~\ref{tab:cand} lists candidates to be checked against the rule. They are suggestions drawn from general historical knowledge, not results; a candidate may fail the rule once its series are computed. The most informative is the dollar itself, which would enter as a right-censored reserve issuer whose lower bound on the lag could be compared with the 40--63 years of the four past issuers; its crossing date depends on whether shares are measured at market or PPP rates. Two candidates bear on identification: Russia since the 2000s and Israel are non-reserve sovereigns with some monetary autonomy, which is what is needed to separate $\mu$ from reserve status. A further point is a check on an existing case. If Germany's HGI was already negative well before 1914, the 4-year lag recorded for Weimar would be an artefact of the 1919 crossing date. I have not verified this, and it is the kind of re-dating the population rule is designed to expose. The euro, the Swiss franc, the renminbi and the yen since 1945 do not meet the rule, because the issuer either has a non-negative HGI or has not been overstretched.
+
+\paragraph{Applying the rule and analysing the result.} Before the sample is extended, each of the nine existing cases is tested against the rule: $t_0$ is recomputed, Greece's euro-entry date is replaced by a computed crossing or the case is labelled as using a proxy date, Weimar is re-dated if an earlier German run is found, and any case that fails the share threshold is flagged. With censored episodes included, the natural tools are Kaplan--Meier curves by sovereignty group \citep{kaplan1958}, an exact permutation (log-rank) test, and a discrete-time hazard model if enough events exist; with so few events, exact methods and wide intervals remain the honest choice. Two limits are stated in advance: the design cannot remove the correlation of $\mu$ with era unless some high-$\mu$ episodes are modern, and episodes within one monetary history are not independent.
+
+%=====================================================================
+\section{Empirical Results}\label{sec:results}
+We now present the empirical findings for the nine-case sample. Results are organized from the shape of the fitted relationship (Section~\ref{sec:shape}), through model comparison and intervals (Sections~\ref{sec:models} and~\ref{sec:intervals}), to exact tests, sensitivity to coding choices and to single cases, and finally identification (Sections~\ref{sec:chance}--\ref{sec:ident}). Tables~1--6 and Figures~1--4 are collected in Appendix~\ref{app:impl}.
+
+\subsection{The Shape Parameter Is Not Identified; the Curve Is a Step}\label{sec:shape}
+The profile $R^2(\alpha)$ increases from 0.42 at $\alpha=0.1$ through 0.695 at $\alpha=1$ and converges to 0.704 as $\alpha\to\infty$ (Figure~2). As $\alpha$ grows, $\mu^\alpha\to0$ for all $\mu<1$, so the curve collapses to a two-group step (Proposition~\ref{prop:step}): $\tau_{\min}=14.2$ for partial-sovereignty cases and $\tau_{\max}=52.0$ for full-sovereignty cases (Figure~1). These values equal the group means, and the corresponding $R^2$ matches the limit of the profile exactly. A fit that ``pushes $\alpha$ to the boundary'' is thus not an optimiser artefact but a mathematical property of this sample: with a single case at $\mu=\tfrac12$ and no case at $\tfrac34$, the data cannot say how the lag rises between $\mu=0$ and $\mu=1$.
+
+\subsection{Model Comparison}\label{sec:models}
+Table~2 reports in-sample and out-of-sample performance. The three-parameter curve buys no in-sample improvement over the step model ($R^2$ identical to three decimals) and pays for it with the worst out-of-sample accuracy among the $\mu$-based models (LOO $R^2=0.35$, against 0.52 for the step and 0.54 for the linear model). The two-parameter step and linear models also have lower AICc than the three-parameter curve. The lesson is not that $\mu$ is irrelevant (it beats the intercept-only model by a wide margin) but that the extra flexibility of equation~\eqref{eq:curve} is unsupported. The largest leave-one-out error of the step model, 33.5 years, is for the Ottoman lira, the case whose coding is most exposed to outcome look-ahead (Table~6).
+
+\subsection{Intervals for a Full-Sovereignty Issuer}\label{sec:intervals}
+It is common to report a percentile bootstrap interval for the fitted value as if it were a prediction interval. With $B=20{,}000$ the bootstrap interval for the $\mu=1$ group mean is 41.2--62.2 years (median 52.0). It measures uncertainty in the group mean, not in the lag of a new issuer, who will also draw an idiosyncratic residual (residual s.d.\ $\hat\sigma=13.8$ years, pooled). The correct 95\% predictive interval (Proposition~\ref{prop:pi}) is
+\[
+52.0\pm t_{7}\,(13.8)\sqrt{1+\tfrac14}\;=\;[15.5,\;88.5]\ \text{years},
+\]
+and 12.1--91.9 if the variance is estimated from the four $\mu=1$ cases alone. The coverage experiment confirms the distinction empirically (Table~3 and Figure~3): when data are generated by the step model itself, the bootstrap interval contains a new issuer's lag only 52\% of the time, while the predictive intervals cover approximately 95\%. With a known $\sigma$ the shortfall can be derived in closed form (Proposition~\ref{prop:cov}): a normal-theory 95\% confidence interval for the mean covers a new draw with probability 0.62 for $n_1=4$; the percentile bootstrap falls further below that because it understates the sampling variance of a mean of four observations.
+
+In the verified subsample, dropping the two benchmark-only cases leaves just two $\mu=1$ observations (French franc, 45; sterling, 63). A pairs bootstrap can then return only $\{45,54,63\}$, giving 45.0--63.0 years---a discreteness artefact, not information. The pooled predictive interval is 6.9--101.1 years, and with group variances ($\nu=1$) the interval is $\pm198$ years. Positivity can be imposed by fitting $\ln\tau$; this gives 7.1--366 years for the full sample, which only emphasises how weakly the data constrain the upper tail. In the full-sample bootstrap, a resample contains no $\mu=1$ case with probability $(5/9)^9\approx0.5\%$, so about 101 of the 20,000 draws are expected to be discarded; 113 were, and 19,887 draws are used.
+
+\subsection{Is the Full-versus-Partial Gap Distinguishable from Chance?}\label{sec:chance}
+Modestly. The observed difference in group means is 37.8 years. Among all 126 possible assignments of four ``full'' labels to nine cases, only 3 produce a difference at least as large in absolute value: exact permutation $p=0.0238$. Besides the observed assignment these are one in which the Ottoman lira replaces the Dutch guilder among the ``full'' cases (difference 38.3) and one in which the label falls on the four twentieth-century cases with $\mu<1$ (Weimar, Argentina, Japan, Greece; difference $-42.3$). The exact Mann--Whitney test gives $p=0.032$ (one overlap: the Ottoman lira at 41 exceeds the Dutch guilder at 40). In the verified subsample the permutation $p=0.048$ and Mann--Whitney $p=0.095$: borderline, as two observations in a group allow. As a purely descriptive effect size, Cohen's $d=2.74$ (Hedges' $g=2.44$); its sampling distribution is unreliable with four and five observations and I draw no inference from it.
+
+The permutation test treats the split at $\mu=1$ as given. That split coincides with the step model's limiting form and was not fixed before the data were examined, so the $p$-value is best read as descriptive.
+
+\subsection{Sensitivity to Coding Choices}\label{sec:coding}
+Enumerating all $3^9$ date combinations, the full-sovereignty mean ranges over 45.0--58.75 years (narrow-only: 45.0; wide-only: 58.75) and the step $R^2$ over 0.57--0.82 (median 0.69). The corresponding pooled predictive intervals are 14.6--75.4 (narrow) and 17.3--100.2 (wide). Date definition therefore moves the central estimate by about 14 years, comparable with the half-width of the confidence interval for the mean (Figure~4, left panel).
+
+If each binary rubric score is independently mis-coded with probability $p$, the median step-fit $R^2$ falls from 0.704 to 0.62 at $p=0.05$ (5th percentile 0.21), to 0.34 at $p=0.10$ (5th percentile 0.05), and to 0.24 at $p=0.20$ (Figure~4, right panel). Because $\mu=1$ requires all four checks, a single error in a full-sovereignty case moves it out of the top group.
+
+\subsection{Sensitivity to Single Cases}\label{sec:loco}
+Table~4 re-estimates the step model after deleting each case in turn. The group difference stays between 34.1 and 44.5 years, so no single case drives its size or sign. Its exact $p$-value, however, ranges from 0.018 to 0.057: deleting the Dutch guilder, the Ottoman lira, the Spanish real or the French franc leaves $p<0.05$, whereas deleting British sterling, Weimar Germany, Argentina, Imperial Japan or Greece lifts it to 0.054--0.057. With nine cases, statistical significance at the conventional level is therefore not robust to the loss of any one of five observations.
+
+\subsection{Identification}\label{sec:ident}
+The first identification problem is that $\mu$ is collinear with reserve-issuer status. All four $\mu=1$ cases are historical reserve issuers; none of the five others is (Weimar, Argentina and Greece never were; the Ottoman lira and Imperial yen were not primary reserve currencies). The $2\times2$ table is $\left[\begin{smallmatrix}4&0\\0&5\end{smallmatrix}\right]$ (Fisher exact $p=0.0079$). The data therefore cannot tell whether monetary sovereignty lengthens the lag or whether being a reserve issuer with deep markets does.
+
+The second is that $\mu$ is nearly collinear with era. The five cases whose crossing precedes 1900 (Spanish real, Dutch guilder, French franc, Ottoman lira, British sterling) have a mean lag of 49.8 years; the four whose crossing follows 1900 have 7.5. Table~5 compares the two partitions. The era split separates the lags more sharply than the sovereignty split (exact permutation $p=0.0079$ against 0.0238; step $R^2=0.882$ against 0.704; leave-one-out $R^2$ of 0.81 against 0.52). The two partitions disagree on a single case, the Ottoman lira, so the correlation between the two indicators is 0.80. Entering both indicators raises $R^2$ only to 0.904, and with nine observations and this collinearity no separate inference about the two effects is possible. This does not show that era, rather than sovereignty, matters: the era split is equally post hoc, and a mechanism that shortened lags in the twentieth century (faster capital movements, different central-banking regimes) is as consistent with the data as one operating through sovereignty. The point is that the data do not discriminate.
+
+The third problem is outcome-contaminated scoring. Re-scoring the Ottoman lira under pre-1881 conditions as fully sovereign ($\mu=1$) changes the full-sovereignty mean to 49.8 and the partial mean to 7.5, raises step $R^2$ to 0.88, and narrows the pooled predictive interval to 27.2--72.4 (this re-scoring is the era partition). Re-scoring both the lira and yen at $\mu=1$ gives a mean of 43.7, $R^2=0.64$ and a pooled predictive interval of 4.8--82.5. The sign of the effect is thus preserved, but both the separation and the interval depend on a scoring judgement that is entangled with the outcome. A correct protocol scores $\mu$ at a pre-specified date before the HGI crossing, by an independent coder who does not see the outcome (Section~\ref{sec:blind}).
+
+The fourth is selection on the outcome. Every case is in the sample because a transition happened. Powers whose HGI turned negative without a reserve transition, and the current dollar, still pending, are absent or right-censored \citep{geddes1990,king2001}. Truncating on the outcome biases estimated lags toward short values and makes any survival-style claim---``the dollar will lose status in $x$ years''---conditional on a transition ever occurring, which the data cannot establish.
+
+%=====================================================================
+\section{Summary and Concluding Remarks}\label{sec:conclusion}
+The evidence from the nine cases supports five overarching conclusions. First, the shape of the sovereignty--lag relationship is not identified: for fixed $\alpha$ the $\mu$--$\tau$ curve is linear in its other two parameters, so the profile of $R^2$ over $\alpha$ is exact, and it rises monotonically to the step-function limit $R^2=0.704$ with no interior optimum (Section~\ref{sec:shape}). Second, parsimony wins: the two-parameter step and linear models have lower AICc and higher leave-one-out $R^2$ than the three-parameter curve (Section~\ref{sec:models}). Third, intervals must be read for what they are: the $\mu=1$ group has $\bar\tau=52.0$, and the 95\% interval for a \emph{new} full-sovereignty issuer is 15.5--88.5 years (pooled variance), not 41.2--62.2 (Section~\ref{sec:intervals}). Fourth, the group difference (37.8 years; exact $p=0.0238$) survives the deletion of any single case in sign and size, but its $p$-value rises above 0.05 when any one of five cases is deleted (Section~\ref{sec:loco}). Fifth, identification fails: $\mu=1$ is perfectly collinear with reserve-issuer status; a pre-1900/post-1900 split fits better than $\mu$ ($R^2=0.882$ against 0.704); the rubric partly encodes post-outcome institutions; and all cases were selected because a transition occurred (Section~\ref{sec:ident}).
+
+What the evidence supports is therefore modest. Among the nine cases, full-sovereignty reserve issuers had lags of 40--63 years under mid dates; the five others, 4--41 years. The difference is unlikely to be chance (exact $p=0.0238$), keeps its size and sign when any single case is deleted, and is large in descriptive terms. The honest object is a wide predictive distribution---roughly 15 to 90 years for a new full-sovereignty issuer---and the qualitative statement that the historical reserve issuers did not lose primacy within a decade of their HGI turning negative. The evidence does not support a shape for $\tau(\mu)$ between 0 and 1; a calendar date for any future transition, including that of the dollar; any claim that $\mu$ causes longer lags, since $\mu=1$ is collinear with reserve status and nearly collinear with era; or significance at the conventional level that is robust to the deletion of a single case.
+
+The exercise suggests practical lessons that apply well beyond this application to small-$N$ macro-historical work. Any shape parameter should be profiled exactly, and if the profile is monotone the limiting model should be reported. Candidate models should be compared by leave-one-out accuracy, with any tuning parameter re-selected inside each fold. Predictive intervals should be reported for new cases, and bootstrap intervals for fitted values labelled as confidence intervals. Monte Carlo $p$-values should be replaced by exact enumeration whenever the number of labelings is small. The key variable should be tested against the most obvious confounders, including era, by comparing alternative partitions; coding choices should be enumerated and the estimates recomputed after deleting each case; and explanatory variables should be scored before the outcome is known, by someone who does not know it.
+
+Four limitations deserve emphasis beyond those already discussed. First, cases are not independent: the Spanish, Dutch and French episodes belong to the same European monetary history, and later cases may have learned from earlier ones. Second, the HGI is a two-share index; it ignores alliances, technology, and the composition of military spending. Third, ``formal loss of primacy'' is a judgement, even though the narrow--wide bounds make that judgement explicit. Fourth, the three low-lag cases (Weimar, Argentina, Greece) are not hegemons, so the contrast the data draw is partly a contrast between different kinds of sovereign rather than between different degrees of sovereignty within one kind. Future research directions follow directly: the blind re-scoring protocol of Section~\ref{sec:blind} is executed; the comparison sample of Section~\ref{sec:compcase}, including censored cases, is built and analysed with survival methods; the Dutch case is extended with annual GDP \citep{vanzanden2012} and relative military burden \citep{glete2002,thart2014,tracy2008}, which would move it from benchmark-only to verified; and the pre-specified market test of Section~\ref{sec:market} is executed. Until the first of these is done, the sovereignty scores reported here should be read as the author's coding, made with knowledge of the outcomes.
+
+A nine-case sample is enough to say that the four historical reserve issuers in it lost primacy over decades rather than years. It is not enough to estimate the shape of the sovereignty--lag relationship, to separate sovereignty from reserve-issuer status or era, or to assign a date to the dollar. The paper's value lies in making these limits exact: closed-form fits, enumerated tests, a distinction between confidence and predictive intervals that changes the headline window by a factor of three, a quantified era confound, and explicit step-by-step procedures that others can repeat.
+
+\section*{Disclosure of interest \& Funding}
+There are no interests to declare from the author. No funding was received for doing this research. The case codings are reported in full in Table~\ref{tab:cases}; the external series are the public sources named in Section~\ref{sec:data}.
+
+%=====================================================================
+\begin{thebibliography}{99}\setlength{\itemsep}{1pt}\small
+\bibitem[Arrighi(1994)]{arrighi1994} Arrighi, Giovanni (1994), \emph{The Long Twentieth Century}. London: Verso.
+\bibitem[Asness et al.(2013)]{asness2013} Asness, Clifford S., Tobias J. Moskowitz and Lasse Heje Pedersen (2013), Value and Momentum Everywhere, \emph{Journal of Finance}, 68, 929--985.
+\bibitem[Bailey and L\'opez de Prado(2014)]{bailey2014} Bailey, David H. and Marcos L\'opez de Prado (2014), The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality, \emph{Journal of Portfolio Management}, 40, 94--107.
+\bibitem[Bolt and van Zanden(2020)]{bolt2020} Bolt, Jutta and Jan Luiten van Zanden (2020), \emph{Maddison Project Database, Version 2020}. Groningen: University of Groningen.
+\bibitem[Burnham and Anderson(2002)]{burnham2002} Burnham, Kenneth P. and David R. Anderson (2002), \emph{Model Selection and Multimodel Inference}, 2nd ed. New York: Springer.
+\bibitem[Chinn and Frankel(2007)]{chinn2007} Chinn, Menzie D. and Jeffrey A. Frankel (2007), Will the Euro Eventually Surpass the Dollar as Leading International Reserve Currency?, in R. Clarida (ed.), \emph{G7 Current Account Imbalances: Sustainability and Adjustment}. Chicago: University of Chicago Press, 283--338.
+\bibitem[Cohen(1998)]{cohen1998} Cohen, Benjamin J. (1998), \emph{The Geography of Money}. Ithaca: Cornell University Press.
+\bibitem[Cohen(1960)]{cohen1960} Cohen, Jacob (1960), A Coefficient of Agreement for Nominal Scales, \emph{Educational and Psychological Measurement}, 20, 37--46.
+\bibitem[Efron(1979)]{efron1979} Efron, Bradley (1979), Bootstrap Methods: Another Look at the Jackknife, \emph{Annals of Statistics}, 7, 1--26.
+\bibitem[Efron and Tibshirani(1993)]{efron1993} Efron, Bradley and Robert J. Tibshirani (1993), \emph{An Introduction to the Bootstrap}. New York: Chapman \& Hall.
+\bibitem[Eichengreen(2011)]{eichengreen2011} Eichengreen, Barry (2011), \emph{Exorbitant Privilege: The Rise and Fall of the Dollar and the Future of the International Monetary System}. Oxford: Oxford University Press.
+\bibitem[Eichengreen and Flandreau(2009)]{eichengreen2009} Eichengreen, Barry and Marc Flandreau (2009), The Rise and Fall of the Dollar (or When Did the Dollar Replace Sterling as the Leading Reserve Currency?), \emph{European Review of Economic History}, 13, 377--411.
+\bibitem[Eichengreen et al.(2017)]{eichengreen2017} Eichengreen, Barry, Arnaud Mehl and Livia Chi\c{t}u (2017), \emph{How Global Currencies Work: Past, Present, and Future}. Princeton: Princeton University Press.
+\bibitem[Farhi and Maggiori(2018)]{farhi2018} Farhi, Emmanuel and Matteo Maggiori (2018), A Model of the International Monetary System, \emph{Quarterly Journal of Economics}, 133, 295--355.
+\bibitem[Fisher(1922)]{fisher1922} Fisher, Ronald A. (1922), On the Interpretation of $\chi^2$ from Contingency Tables, and the Calculation of P, \emph{Journal of the Royal Statistical Society}, 85, 87--94.
+\bibitem[Geddes(1990)]{geddes1990} Geddes, Barbara (1990), How the Cases You Choose Affect the Answers You Get: Selection Bias in Comparative Politics, \emph{Political Analysis}, 2, 131--150.
+\bibitem[Geisser(1993)]{geisser1993} Geisser, Seymour (1993), \emph{Predictive Inference: An Introduction}. New York: Chapman \& Hall.
+\bibitem[Gelman and Loken(2014)]{gelman2014} Gelman, Andrew and Eric Loken (2014), The Statistical Crisis in Science, \emph{American Scientist}, 102, 460--465.
+\bibitem[Gilpin(1981)]{gilpin1981} Gilpin, Robert (1981), \emph{War and Change in World Politics}. Cambridge: Cambridge University Press.
+\bibitem[Glete(2002)]{glete2002} Glete, Jan (2002), \emph{War and the State in Early Modern Europe}. London: Routledge.
+\bibitem[Gourinchas and Rey(2007)]{gourinchas2007} Gourinchas, Pierre-Olivier and H\'el\`ene Rey (2007), From World Banker to World Venture Capitalist: US External Adjustment and the Exorbitant Privilege, in R. Clarida (ed.), \emph{G7 Current Account Imbalances: Sustainability and Adjustment}. Chicago: University of Chicago Press.
+\bibitem['t Hart(2014)]{thart2014} 't Hart, Marjolein (2014), \emph{The Dutch Wars of Independence: Warfare and Commerce in the Netherlands, 1570--1680}. London: Routledge.
+\bibitem[Harvey et al.(2016)]{harvey2016} Harvey, Campbell R., Yan Liu and Heqing Zhu (2016), \ldots and the Cross-Section of Expected Returns, \emph{Review of Financial Studies}, 29, 5--68.
+\bibitem[Hurvich and Tsai(1989)]{hurvich1989} Hurvich, Clifford M. and Chih-Ling Tsai (1989), Regression and Time Series Model Selection in Small Samples, \emph{Biometrika}, 76, 297--307.
+\bibitem[Ilzetzki et al.(2019)]{ilzetzki2019} Ilzetzki, Ethan, Carmen M. Reinhart and Kenneth S. Rogoff (2019), Exchange Arrangements Entering the Twenty-First Century: Which Anchor Will Hold?, \emph{Quarterly Journal of Economics}, 134, 599--646.
+\bibitem[Jiang et al.(2026)]{jiang2026} Jiang, Zhengyang, Arvind Krishnamurthy, Hanno Lustig and Robert Richmond (2026), Dollar Erosion: Understanding the Loss of Reserve Currency Status, NBER Working Paper 35328.
+\bibitem[Kaplan and Meier(1958)]{kaplan1958} Kaplan, Edward L. and Paul Meier (1958), Nonparametric Estimation from Incomplete Observations, \emph{Journal of the American Statistical Association}, 53, 457--481.
+\bibitem[Kennedy(1987)]{kennedy1987} Kennedy, Paul (1987), \emph{The Rise and Fall of the Great Powers}. New York: Random House.
+\bibitem[Keohane(1984)]{keohane1984} Keohane, Robert O. (1984), \emph{After Hegemony: Cooperation and Discord in the World Political Economy}. Princeton: Princeton University Press.
+\bibitem[Kindleberger(1973)]{kindleberger1973} Kindleberger, Charles P. (1973), \emph{The World in Depression, 1929--1939}. Berkeley: University of California Press.
+\bibitem[King and Zeng(2001)]{king2001} King, Gary and Langche Zeng (2001), Explaining Rare Events in International Relations, \emph{International Organization}, 55, 693--715.
+\bibitem[Lieberson(1991)]{lieberson1991} Lieberson, Stanley (1991), Small N's and Big Conclusions: An Examination of the Reasoning in Comparative Studies Based on a Small Number of Cases, \emph{Social Forces}, 70, 307--320.
+\bibitem[Lustig et al.(2011)]{lustig2011} Lustig, Hanno, Nikolai Roussanov and Adrien Verdelhan (2011), Common Risk Factors in Currency Markets, \emph{Review of Financial Studies}, 24, 3731--3777.
+\bibitem[Mann and Whitney(1947)]{mann1947} Mann, Henry B. and Donald R. Whitney (1947), On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other, \emph{Annals of Mathematical Statistics}, 18, 50--60.
+\bibitem[Menkhoff et al.(2012)]{menkhoff2012} Menkhoff, Lukas, Lucio Sarno, Maik Schmeling and Andreas Schrimpf (2012), Currency Momentum Strategies, \emph{Journal of Financial Economics}, 106, 660--684.
+\bibitem[Nosek et al.(2018)]{nosek2018} Nosek, Brian A., Charles R. Ebersole, Alexander C. DeHaven and David T. Mellor (2018), The Preregistration Revolution, \emph{Proceedings of the National Academy of Sciences}, 115, 2600--2606.
+\bibitem[Phipson and Smyth(2010)]{phipson2010} Phipson, Belinda and Gordon K. Smyth (2010), Permutation P-values Should Never Be Zero: Calculating Exact P-values When Permutations Are Randomly Drawn, \emph{Statistical Applications in Genetics and Molecular Biology}, 9, Article 39.
+\bibitem[Raue et al.(2009)]{raue2009} Raue, Andreas, Clemens Kreutz, Thomas Maiwald et al. (2009), Structural and Practical Identifiability Analysis of Partially Observed Dynamical Models by Exploiting the Profile Likelihood, \emph{Bioinformatics}, 25, 1923--1929.
+\bibitem[Reinhart and Rogoff(2009)]{reinhart2009} Reinhart, Carmen M. and Kenneth S. Rogoff (2009), \emph{This Time Is Different: Eight Centuries of Financial Folly}. Princeton: Princeton University Press.
+\bibitem[Seber and Wild(1989)]{seber1989} Seber, George A. F. and Christopher J. Wild (1989), \emph{Nonlinear Regression}. New York: Wiley.
+\bibitem[Stone(1974)]{stone1974} Stone, Mervyn (1974), Cross-Validatory Choice and Assessment of Statistical Predictions, \emph{Journal of the Royal Statistical Society, Series B}, 36, 111--147.
+\bibitem[Strange(1971)]{strange1971} Strange, Susan (1971), The Politics of International Currencies, \emph{World Politics}, 23, 215--231.
+\bibitem[Tracy(2008)]{tracy2008} Tracy, James D. (2008), \emph{The Founding of the Dutch Republic: War, Finance, and Politics in Holland, 1572--1588}. Oxford: Oxford University Press.
+\bibitem[Triffin(1960)]{triffin1960} Triffin, Robert (1960), \emph{Gold and the Dollar Crisis: The Future of Convertibility}. New Haven: Yale University Press.
+\bibitem[van Zanden and van Leeuwen(2012)]{vanzanden2012} van Zanden, Jan Luiten and Bas van Leeuwen (2012), Persistent but Not Consistent: The Growth of National Income in Holland 1347--1807, \emph{Explorations in Economic History}, 49, 119--130.
+\end{thebibliography}
+
+%=====================================================================
+\appendix
+\section{Implementation Details and Tables of Results}\label{app:impl}
+For the empirical exercise I have used the following implementation details.
+\begin{enumerate}[label=(\alph*),leftmargin=2em,itemsep=2pt]
+\item \emph{Exact profile:} for each $\alpha$ the regression of $\tau$ on $(1,\mu^{\alpha})$ is solved by ordinary least squares; the power curve in Table~2 uses the best $\alpha\le500$, re-selected inside every leave-one-out fit.
+\item \emph{Bootstrap:} a pairs bootstrap of the nine $(\mu_i,\tau_i)$ pairs with $B=20{,}000$ draws and a fixed seed; resamples with no $\mu=1$ case are discarded.
+\item \emph{Exact enumeration:} all $\binom94=126$ label assignments for the permutation test and all $3^9=19{,}683$ narrow/mid/wide date combinations are enumerated, so those results involve no simulation.
+\item \emph{Monte Carlo:} the rubric-error experiment flips each of the $4\times9$ binary scores with probability $p\in\{0.05,0.10,0.20\}$; the coverage experiment uses 3,000 simulations from the step model with group means 52 and 14 and $\sigma=11$. Seeds are fixed.
+\end{enumerate}
+
+\begin{table}[H]\centering\small\setlength{\tabcolsep}{4pt}
+\caption{The nine cases. $\mu$ is the share of four binary rubric criteria met (E: exchange rate, I: interest rate, D: debt monetisation, C: no external conditionality). $\tau$ in years under narrow / mid / wide transition dates; ``Implied'' is the crossing year plus the mid lag. Provenance: V verified; VC verified with caveat; BO benchmark-only.}\label{tab:cases}
+\begin{tabular}{@{}lrcccccccrc@{}}
+\toprule
+Case & Cross & E & I & D & C & $\mu$ & $\tau$ (n/m/w) & Implied & Prov.\\\midrule
+Spanish real & c.1590 & 1&1&1&1 & 1.00 & 55/60/65 & 1650 & BO\\
+Dutch guilder & c.1780 & 1&1&1&1 & 1.00 & 35/40/45 & 1820 & BO\\
+French franc & c.1812 & 1&1&1&1 & 1.00 & 40/45/50 & 1857 & VC\\
+British sterling & c.1881 & 1&1&1&1 & 1.00 & 50/63/75 & 1944 & V\\
+Ottoman lira & c.1840 & 0&0&1&0 & 0.25 & 35/41/45 & 1881 & V\\
+Weimar mark & 1919 & 0&0&0&0 & 0.00 & 4/4/4 & 1923 & V\\
+Argentina (conv.) & 1998 & 0&1&0&0 & 0.25 & 4/4/4 & 2002 & V\\
+Imperial yen & 1932 & 1&1&0&0 & 0.50 & 10/13/15 & 1945 & V\\
+Greek euro (proxy) & c.2001 & 0&0&0&0 & 0.00 & 8/9/11 & 2010 & V\\\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize\emph{Notes:} ``Verified'' means that annual quantitative series exist for the variables used, not that the crossing date has been independently recomputed. The Greek crossing (c.\,2001) is the euro-entry date, not a computed HGI crossing; the Ottoman c.\,1840 shares rest on thin Maddison coverage.
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{In-sample and out-of-sample performance, mid-date $\tau$, $n=9$. $k$ counts mean-structure parameters. LOO = leave-one-out.}\label{tab:models}
+\begin{tabular}{@{}lccccc@{}}\toprule
+Model & $k$ & In-sample $R^2$ & LOO $R^2$ & LOO RMSE & AICc\\\midrule
+Intercept only & 1 & 0 & $-0.27$ & 25.2 & 61.9\\
+Linear in $\mu$ & 2 & 0.695 & 0.54 & 15.1 & 56.1\\
+Power curve (best $\alpha$) & 3 & 0.704 & 0.35 & 18.0 & 63.0\\
+Step at $\mu=1$ & 2 & 0.704 & 0.52 & 15.5 & 55.8\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Coverage of a fresh full-sovereignty draw (3,000 simulations; nominal 95\%).}\label{tab:cov}
+\begin{tabular}{@{}lcc@{}}\toprule
+Interval & Coverage & Mean length (yrs)\\\midrule
+Bootstrap CI of the mean & 52\% & 19\\
+Predictive, pooled variance & 95\% & 56\\
+Predictive, group variance & 95\% & 71\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Leave-one-case-out step-model estimates (mid dates). Gap is $\bar\tau_{\mu=1}-\bar\tau_{\mu<1}$; $p$ is the exact two-sided permutation $p$-value over the labelings of the remaining eight cases.}\label{tab:loco}
+\begin{tabular}{@{}lccccc c@{}}\toprule
+Case dropped & $n_{\mu=1}$ & $\bar\tau_{\mu=1}$ & $\bar\tau_{\mu<1}$ & Gap & Perm.\ $p$ & Step $R^2$\\\midrule
+Spanish real & 3 & 49.3 & 14.2 & 35.1 & 0.036 & 0.65\\
+Dutch guilder & 3 & 56.0 & 14.2 & 41.8 & 0.018 & 0.74\\
+French franc & 3 & 54.3 & 14.2 & 40.1 & 0.036 & 0.70\\
+British sterling & 3 & 48.3 & 14.2 & 34.1 & 0.054 & 0.65\\
+Ottoman lira & 4 & 52.0 & 7.5 & 44.5 & 0.029 & 0.90\\
+Weimar mark & 4 & 52.0 & 16.8 & 35.2 & 0.057 & 0.67\\
+Argentina (conv.) & 4 & 52.0 & 16.8 & 35.2 & 0.057 & 0.67\\
+Imperial yen & 4 & 52.0 & 14.5 & 37.5 & 0.057 & 0.68\\
+Greek euro (proxy) & 4 & 52.0 & 15.5 & 36.5 & 0.057 & 0.67\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Two partitions of the nine cases (mid dates). Group sizes and mean lags are given as first group / second group. All statistics are exact.}\label{tab:era}
+\begin{tabular}{@{}lcccccc@{}}\toprule
+Partition & Sizes & Mean lags & Gap & Perm.\ $p$ & Step $R^2$ & LOO $R^2$\\\midrule
+Sovereignty ($\mu=1$ vs $\mu<1$) & 4 / 5 & 52.0 / 14.2 & 37.8 & 0.0238 & 0.704 & 0.52\\
+Era (crossing before vs after 1900) & 5 / 4 & 49.8 / 7.5 & 42.3 & 0.0079 & 0.882 & 0.81\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Leave-one-out predictions of the mid-date lag from the step model and from the power curve with $\alpha$ re-selected in each fold. Step error is actual minus step prediction.}\label{tab:loopred}
+\begin{tabular}{@{}lcccccc@{}}\toprule
+Case & $\mu$ & $\tau$ (mid) & Step LOO & Power LOO & Step error\\\midrule
+Spanish real & 1.00 & 60 & 49.3 & 48.6 & $+10.7$\\
+Dutch guilder & 1.00 & 40 & 56.0 & 56.0 & $-16.0$\\
+French franc & 1.00 & 45 & 54.3 & 54.3 & $-9.3$\\
+British sterling & 1.00 & 63 & 48.3 & 47.5 & $+14.7$\\
+Ottoman lira & 0.25 & 41 & 7.5 & 6.5 & $+33.5$\\
+Weimar mark & 0.00 & 4 & 16.8 & 16.8 & $-12.8$\\
+Argentina (conv.) & 0.25 & 4 & 16.8 & 23.9 & $-12.8$\\
+Imperial yen & 0.50 & 13 & 14.5 & 33.5 & $-1.5$\\
+Greek euro (proxy) & 0.00 & 9 & 15.5 & 15.5 & $-6.5$\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]\centering
+\includegraphics[width=.8\linewidth]{figures/fig1_scatter.png}
+\caption{Transition lag against the Monetary Sovereignty Modifier. Vertical bars span the narrow-to-wide date definitions. Filled markers: $\mu=1$; open markers: $\mu<1$; squares: benchmark-only cases. The step fit (solid horizontal line) is the $\alpha\to\infty$ limit of the power family (dashed and dotted: $\alpha=1,2$).}\label{fig:scatter}
+\end{figure}
+
+\begin{figure}[H]\centering
+\includegraphics[width=.8\linewidth]{figures/fig2_profile.png}
+\caption{Exact profile of in-sample $R^2$ (solid) and leave-one-out $R^2$ (dashed) over $\alpha$; the dotted line is the step-function limit. Fit improves monotonically toward the step limit; out-of-sample accuracy peaks at low $\alpha$ and \emph{falls} as the curve steepens.}\label{fig:profile}
+\end{figure}
+
+\begin{figure}[H]\centering
+\includegraphics[width=.85\linewidth]{figures/fig3_intervals.png}
+\caption{Intervals for $\tau$ of a $\mu=1$ issuer. Solid bars: bootstrap confidence intervals for the conditional mean. Hatched bars: predictive intervals for a new issuer. Dotted line: group mean.}\label{fig:intervals}
+\end{figure}
+
+\begin{figure}[H]\centering
+\includegraphics[width=.85\linewidth]{figures/fig4_robustness.png}
+\caption{Left: $\hat\tau_{\mu=1}$ across all 19,683 date definitions. Right: distribution of step-fit $R^2$ when each rubric score is flipped with probability 0.10.}\label{fig:robust}
+\end{figure}
+
+\section{Blind-Scoring Protocol Details and Candidate Comparison Cases}\label{app:blind}
+Table~\ref{tab:rules} gives the default decision rules for the four rubric criteria and the stricter alternative reading used in sensitivity analysis (Section~\ref{sec:blind}). Each coder's sheet records, for every case-criterion pair: the case code, scorer identifier, $t_0$, outcome-familiarity rating (0, 1 or 2), a 0/1 score or ``unknown,'' a confidence rating (high, medium, low), a one-to-three-sentence justification, a dated document citation, and the date signed. Sheets are locked and hashed before any comparison.
+
+\begin{table}[H]\centering\small
+\caption{Decision rules for the sovereignty rubric, applied at the crossing year $t_0$.}\label{tab:rules}
+\begin{tabular}{@{}p{0.6cm}p{4.4cm}p{4.4cm}p{3.1cm}@{}}
+\toprule
+ & Score 1 if & Score 0 if & Alternative reading\\\midrule
+E & The authorities could change the parity, suspend convertibility or float without consent of a foreign government, international body or currency union. A domestic-law metallic standard does not by itself force 0. & Currency union, currency board, treaty-enforced peg, or a peg to a foreign anchor that the sovereign cannot leave unilaterally. & Strict: any fixed-parity regime scores 0.\\[6pt]
+I & A domestic authority sets the policy or discount rate with discretion. & Rate set mechanically by a foreign anchor, currency-board rule or union-wide authority. & Strict: a rate used to defend a fixed parity scores 0.\\[6pt]
+D & Public debt is mostly in own currency (over 50\% by value) and no external legal bar or creditor veto prevents central-bank financing. & Debt mostly in foreign currency; or a legal bar (union treaty, board law); or a creditor commission controls revenue. & If debt composition is unknown, record ``unknown.''\\[6pt]
+C & No external arrangement with binding policy conditions is in force. & An IMF or similar programme, creditor administration, or reparations or bailout arrangement with fiscal oversight is in force. & Arrangements agreed only after $t_0$ are ignored.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Candidate episodes for the comparison sample (Section~\ref{sec:compcase}). Roles: C right-censored non-event; E event; H high-sovereignty non-reserve; R reserve issuer. These are suggestions to be checked against the population rule; no series has been computed.}\label{tab:cand}
+\begin{tabular}{@{}p{2.5cm}p{0.8cm}p{6.0cm}p{2.8cm}@{}}
+\toprule
+Candidate & Role & Why it is informative & Data concern\\\midrule
+United States, dollar & C & Central case: a computed $t_0$ without loss of status gives a right-censored lag, with a lower bound comparable to the 40--63 years of past issuers. & Crossing date depends on market versus PPP shares.\\[6pt]
+Germany before 1914 and Weimar & E & Possible earlier negative-HGI run; if so, Weimar's 4-year lag is partly an artefact of the 1919 date. & Pre-1914 military series; hyperinflation distorts later shares.\\[6pt]
+Austria-Hungary & E & Chronic military burden from the 1860s; defeat and monetary collapse after 1918. & Outcome type must be defined first.\\[6pt]
+France, 1920s franc & E & Plausibly negative HGI after the First World War; crisis and stabilisation in the mid-1920s. & Only a secondary reserve currency; sign of HGI unverified.\\[6pt]
+Soviet Union and Russia & E & Large military share against a smaller GDP share; dissolution 1991 and default 1998. & USSR estimates are contested.\\[6pt]
+Russia since the 2000s & H, C & Floating ruble and domestic debt give some autonomy yet no reserve role; helps separate $\mu$ from reserve status. & Score at the computed $t_0$; later sanctions must not leak in.\\[6pt]
+Israel & H, E & High burden relative to a small GDP share; 1985 stabilisation (event) and later period (no event). & Sign of HGI unverified.\\[6pt]
+Pakistan & E & Repeated programmes with high military burden; adds events at low $\mu$ only. & Repeated episodes are not independent.\\[6pt]
+Venice, Florence, Byzantium & R & Would extend the high-$\mu$ reserve group beyond four cases. & Almost certainly benchmark-only.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Notation}\label{app:notation}
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}\toprule
+Symbol & Meaning\\\midrule
+$G_t$, $M_t$ & share of world GDP, share of world military expenditure in year $t$\\
+$\HGI_t$ & Hegemony Gap Index, $G_t-M_t$\\
+$\tau$ & transition lag: years from the first sustained negative HGI crossing to formal loss of primacy\\
+$\mu$ & Monetary Sovereignty Modifier, share of four binary criteria met\\
+$\alpha$ & shape parameter of the power curve~\eqref{eq:curve}\\
+$m_1$, $\tau_0$ & conditional mean lag at $\mu=1$; lag of a new $\mu=1$ issuer\\
+$n$, $n_1$ & number of cases; number with $\mu=1$\\
+$\hat\sigma$, $\nu$ & residual standard deviation; its degrees of freedom\\
+$R^2_{\mathrm{LOO}}$ & leave-one-out $R^2$, equation~\eqref{eq:loo}\\
+AICc & small-sample Akaike criterion, equation~\eqref{eq:aicc}\\\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
