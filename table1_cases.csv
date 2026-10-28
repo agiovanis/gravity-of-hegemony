@@ -1,0 +1,10 @@
+case,crossing_label,crossing_year,E,I,D,C,mu,tau_narrow,tau_mid,tau_wide,implied_year,provenance
+Spanish real,c.1590,1590,1,1,1,1,1.00,55,60,65,1650,BO
+Dutch guilder,c.1780,1780,1,1,1,1,1.00,35,40,45,1820,BO
+French franc,c.1812,1812,1,1,1,1,1.00,40,45,50,1857,VC
+British sterling,c.1881,1881,1,1,1,1,1.00,50,63,75,1944,V
+Ottoman lira,c.1840,1840,0,0,1,0,0.25,35,41,45,1881,V
+Weimar mark,1919,1919,0,0,0,0,0.00,4,4,4,1923,V
+Argentina (conv.),1998,1998,0,1,0,0,0.25,4,4,4,2002,V
+Imperial yen,1932,1932,1,1,0,0,0.50,10,13,15,1945,V
+Greek euro (proxy),c.2001,2001,0,0,0,0,0.00,8,9,11,2010,V

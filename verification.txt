@@ -1,0 +1,86 @@
+VERIFICATION: recomputed values vs. values reported in the paper
+==============================================================================
+quantity                                             computed     paper  status
+------------------------------------------------------------------------------
+R2 profile, alpha=0.1                                  0.4240    0.4200  ok
+R2 profile, alpha=1 (linear)                           0.6952    0.6950  ok
+R2 step / profile limit                                0.7043    0.7040  ok
+tau_max (mean, mu=1)                                  52.0000   52.0000  ok
+tau_min (mean, mu<1)                                  14.2000   14.2000  ok
+Group difference (years)                              37.8000   37.8000  ok
+LOO R2 intercept                                      -0.2656   -0.2700  ok
+LOO R2 linear                                          0.5439    0.5400  ok
+LOO R2 power (alpha re-selected)                       0.3519    0.3500  ok
+LOO R2 step                                            0.5200    0.5200  ok
+AICc intercept                                        61.9475   61.9000  ok
+AICc linear                                           56.0549   56.1000  ok
+AICc power                                            62.9803   63.0000  ok
+AICc step                                             55.7803   55.8000  ok
+Pooled residual s.d.                                  13.7986   13.8000  ok
+Predictive interval, lower (pooled)                   15.5204   15.5000  ok
+Predictive interval, upper (pooled)                   88.4796   88.5000  ok
+Predictive interval, lower (group var.)               12.0606   12.1000  ok
+Predictive interval, upper (group var.)               91.9394   91.9000  ok
+Bootstrap CI lower (seeded; may differ)               41.2500   41.2000  ok
+Bootstrap CI upper (seeded; may differ)               62.2500   62.2000  ok
+Bootstrap median (seeded; may differ)                 52.0000   52.0000  ok
+Verified subsample: bootstrap lower                   45.0000   45.0000  ok
+Verified subsample: bootstrap upper                   63.0000   63.0000  ok
+Verified subsample: pooled PI lower                    6.9478    6.9000  ok
+Verified subsample: pooled PI upper                  101.0522  101.1000  ok
+Verified subsample: group-variance half-width        198.0701  198.0000  ok
+Log-scale PI lower (full sample)                       7.1317    7.1000  ok
+Log-scale PI upper (full sample)                     365.7549  366.0000  ok
+Exact permutation p                                    0.0238    0.0238  ok
+Permutations at least as extreme                       3.0000    3.0000  ok
+Exact Mann-Whitney p                                   0.0317    0.0320  ok
+Fisher exact p (reserve status)                        0.0079    0.0079  ok
+Welch t-test p                                         0.0038    0.0040  ok
+Cohen's d                                              2.7394    2.7400  ok
+Hedges' g                                              2.4350    2.4400  ok
+Verified subsample permutation p                       0.0476    0.0480  ok
+Verified subsample Mann-Whitney p                      0.0952    0.0950  ok
+Table 4: min gap                                      34.1333   34.1000  ok
+Table 4: max gap                                      44.5000   44.5000  ok
+Table 4: min perm p                                    0.0179    0.0180  ok
+Table 4: max perm p                                    0.0571    0.0570  ok
+Era partition: perm p                                  0.0079    0.0079  ok
+Era partition: step R2                                 0.8820    0.8820  ok
+Era partition: LOO R2                                  0.8130    0.8100  ok
+Era partition: mean lag before 1900                   49.8000   49.8000  ok
+Era partition: mean lag after 1900                     7.5000    7.5000  ok
+Correlation of the two indicators                      0.8000    0.8000  ok
+R2 with both indicators                                0.9035    0.9040  ok
+Re-score Ottoman: mean mu=1                           49.8000   49.8000  ok
+Re-score Ottoman: mean mu<1                            7.5000    7.5000  ok
+Re-score Ottoman: step R2                              0.8820    0.8800  ok
+Re-score Ottoman: PI lower                            27.2224   27.2000  ok
+Re-score Ottoman: PI upper                            72.3776   72.4000  ok
+Re-score lira+yen: mean mu=1                          43.6667   43.7000  ok
+Re-score lira+yen: step R2                             0.6406    0.6400  ok
+Re-score lira+yen: PI lower                            4.8119    4.8000  ok
+Re-score lira+yen: PI upper                           82.5214   82.5000  ok
+Largest step LOO error (years)                        33.5000   33.5000  ok
+Date combinations enumerated                       19683.000019683.0000  ok
+Date combos: min mu=1 mean                            45.0000   45.0000  ok
+Date combos: max mu=1 mean                            58.7500   58.7500  ok
+Date combos: min step R2                               0.5681    0.5700  ok
+Date combos: max step R2                               0.8171    0.8200  ok
+Date combos: median step R2                            0.6907    0.6900  ok
+Narrow-only pooled PI lower                           14.5799   14.6000  ok
+Narrow-only pooled PI upper                           75.4201   75.4000  ok
+Wide-only pooled PI lower                             17.2661   17.3000  ok
+Wide-only pooled PI upper                            100.2339  100.2000  ok
+Rubric errors p=0.05: median R2 (MC)                   0.6239    0.6200  ok
+Rubric errors p=0.10: median R2 (MC)                   0.3355    0.3400  ok
+Rubric errors p=0.20: median R2 (MC)                   0.2099    0.2400  ok
+Coverage: bootstrap CI (MC)                            0.5460    0.5200  ok
+Coverage: predictive, pooled (MC)                      0.9540    0.9500  ok
+Coverage: predictive, group (MC)                       0.9530    0.9500  ok
+Mean length: bootstrap CI (MC)                        19.0097   19.0000  ok
+Mean length: pooled PI (MC)                           56.2059   56.0000  ok
+Mean length: group PI (MC)                            72.3629   71.0000  ok
+Prop. 3.6 coverage, n1=4                               0.6193    0.6200  ok
+Prop. 3.6 coverage, n1=2                               0.7422    0.7400  ok
+------------------------------------------------------------------------------
+80/80 quantities match (tolerances reflect the precision printed in the paper; seeded Monte Carlo rows can differ slightly).
